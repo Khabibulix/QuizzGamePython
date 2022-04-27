@@ -1,4 +1,15 @@
+
+def intro():
+    print("\nSalut et bienvenue!\n")
+    consentment = input("Une petite partie? ")
+
+    if consentment.lower() != "oui":
+        quit()
+    print("Allons-y! \n")
+
+
 class Question:
+    SCORE = 0
     def __init__(self, titre=str, bonne_reponse=str):
         self.titre = titre
         self.bonne_reponse = bonne_reponse
@@ -8,6 +19,7 @@ class Question:
         answer = input(self.titre)
         if answer.lower() == self.bonne_reponse:
             print("Bien joué, poulet")
+            Question.SCORE += 1
         else:
             print("Mauvaise réponse, il fallait répondre :", self.bonne_reponse)
 
@@ -17,13 +29,14 @@ class Questionnaire:
         self.questions = questions
 
     def lancer(self):
-        score = 0
         for question in self.questions:
-           if question.poser():
-              score += 1
-              print(score)
-        print("Vous avez " + str(score) + " bonnes réponses sur " + str(len(self.questions)) + " !")
+            question.poser()
+        print("Vous avez " + str(Question.SCORE) + " bonnes réponses sur " + str(len(self.questions)) + " !")
+
+    def get_score(self):
+        score = 0
         return score
+
 
 questions = (
     Question("De quelle couleur est une fraise pour un non-daltonien?  ", "rouge"),
@@ -33,15 +46,6 @@ questions = (
 
 questionnaire = Questionnaire(questions)
 
-
-
-print("\nSalut et bienvenue!\n")
-consentment = input("Une petite partie? ")
-
-if consentment.lower() != "oui":
-	quit()
-print("Allons-y! \n")
-
-
+intro()
+questionnaire.get_score()
 questionnaire.lancer()
-
